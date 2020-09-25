@@ -30,4 +30,4 @@ Setup CockroachDB with Ansible:
 2. Create a playbook file based on `playbook-example.yaml`
 3. Execute:
 
-    $ ansible ./playbook.yaml -i ./inventory.yaml
+    $ ansible-playbook -i inventory.yaml playbook.yaml
