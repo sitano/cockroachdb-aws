@@ -26,12 +26,16 @@ Destroy:
 
 Setup CockroachDB with Ansible:
 
-1. Create an inventory file based on `inventory-example.yaml`
-2. Create a playbook file based on `playbook-example.yaml`
-3. Execute:
+1. Install community modules with:
+
+    $ ansible-galaxy collection install community.general
+ 
+2. Create an inventory file based on `inventory-example.yaml`
+3. Create a playbook file based on `playbook-example.yaml`
+4. Execute:
 
     $ ansible-playbook -i inventory.yaml playbook.yaml
-    
+
 # Note on the single disk raid
 
 If you are using single NVMe with MDADM please patch ansible role

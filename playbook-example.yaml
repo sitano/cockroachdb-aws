@@ -9,6 +9,8 @@
   tags:
     - swap
 
+# https://www.cockroachlabs.com/docs/v20.1/recommended-production-settings#storage
+# The maximum recommended storage capacity per node is 2.5 TiB, regardless of the number of vCPUs.
 - name: configure storage
   hosts: nodes
   become: yes

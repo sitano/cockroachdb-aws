@@ -1,0 +1,16 @@
+---
+- name: Set soft nofile limit
+  become: yes
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: soft
+    limit_item: nofile
+    value: 262144
+
+- name: Set hard nofile limit
+  become: yes
+  community.general.pam_limits:
+    domain: '*'
+    limit_type: hard
+    limit_item: nofile
+    value: 262144

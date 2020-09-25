@@ -9,5 +9,6 @@ ExecStart=/usr/local/bin/cockroach start --insecure --advertise-addr ${PRIVATE_I
 ExecStop=/usr/local/bin/cockroach quit --insecure
 User=root
 PIDFile=/var/run/cockroach.pid
+LimitNOFILE=35000
 [Install]
 WantedBy=multi-user.target
