@@ -35,6 +35,10 @@ Setup CockroachDB with Ansible:
 4. Execute:
 
     $ ansible-playbook -i inventory.yaml playbook.yaml
+    
+5. Init cluster with
+
+    $ cockroach init --insecure
 
 # Note on the single disk raid
 
