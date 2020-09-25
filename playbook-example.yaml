@@ -1,4 +1,33 @@
 ---
+- name: configure swap
+  hosts: nodes
+  become: yes
+  vars:
+    swap_file_size_mb: '1024'
+  roles:
+    - ansible-role-swap
+  tags:
+    - swap
+
+- name: configure storage
+  hosts: nodes
+  become: yes
+  vars:
+    mdadm_arrays:
+      - name: 'md0'
+        devices:
+          - '/dev/nvme0n1'
+        filesystem: 'xfs'
+        level: '0'
+        mountpoint: '/var/lib/cockroachdb'
+        state: 'present'
+        opts: 'noatime,nofail'
+        force: true
+  roles:
+    - ansible-mdadm
+  tags:
+    - mdadm
+
 - name: setup chrony
   hosts: nodes
   roles:

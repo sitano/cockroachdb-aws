@@ -1,4 +1,4 @@
 ---
 crdb_package: 'https://binaries.cockroachdb.com/cockroach-v20.1.6.linux-amd64.tgz'
 storage_path: '/var/lib/cockroachdb'
-storage_size: '10GB'
+storage_size: '1.8TB'

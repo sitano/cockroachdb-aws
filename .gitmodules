@@ -1,3 +1,9 @@
 [submodule "ansible-chrony"]
 	path = ansible-chrony
 	url = git@github.com:influxdata/ansible-chrony.git
+[submodule "ansible-mdadm"]
+	path = ansible-mdadm
+	url = git@github.com:mrlesmithjr/ansible-mdadm.git
+[submodule "ansible-role-swap"]
+	path = ansible-role-swap
+	url = git@github.com:geerlingguy/ansible-role-swap.git

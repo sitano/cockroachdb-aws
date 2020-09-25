@@ -31,3 +31,14 @@ Setup CockroachDB with Ansible:
 3. Execute:
 
     $ ansible-playbook -i inventory.yaml playbook.yaml
+    
+# Note on the single disk raid
+
+If you are using single NVMe with MDADM please patch ansible role
+by adding a flag `-force` to `ansible-mdadm/tasks/arrays.yml`:
+    
+    shell: "yes | mdadm --create /dev/{{ item.name }} --level={{ item.level }} --raid-devices={{ item.devices|count }} {{ item.devices| join (' ') }}"
+    
+    as in
+    
+    shell: "yes | mdadm --create /dev/{{ item.name }} --level={{ item.level }} --force --raid-devices={{ item.devices|count }} {{ item.devices| join (' ') }}"
