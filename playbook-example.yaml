@@ -1,0 +1,10 @@
+---
+- name: setup chrony
+  hosts: crdb
+  roles:
+    - ansible-chrony
+
+- name: setup cockroachdb nodes
+  hosts: crdb
+  roles:
+    - ansible-cockroachdb

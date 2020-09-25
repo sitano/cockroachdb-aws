@@ -1,0 +1,8 @@
+[nodes]
+host_a
+host_b
+host_c
+
+[loaders]
+host_x
+host_y
