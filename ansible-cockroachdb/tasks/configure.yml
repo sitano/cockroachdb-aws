@@ -1,0 +1,6 @@
+---
+- name: Install configuration
+  become: yes
+  template:
+    src: cockroachdb_sysconfig.j2
+    dest: /etc/sysconfig/cockroachdb

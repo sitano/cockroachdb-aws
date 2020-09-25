@@ -3,8 +3,12 @@
   hosts: nodes
   roles:
     - ansible-chrony
+  tags:
+    - chrony
 
 - name: setup cockroachdb nodes
   hosts: nodes
   roles:
     - ansible-cockroachdb
+  tags:
+    - crdb
