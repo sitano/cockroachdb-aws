@@ -37,6 +37,8 @@
 
 - name: setup cockroachdb nodes
   hosts: nodes
+  vars:
+    seeds: "{{ groups['nodes'] | join(',') }}"
   roles:
     - ansible-cockroachdb
   tags:

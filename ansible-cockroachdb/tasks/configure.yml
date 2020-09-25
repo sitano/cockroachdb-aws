@@ -2,5 +2,11 @@
 - name: Install configuration
   become: yes
   template:
-    src: cockroachdb_sysconfig.j2
+    src: cockroachdb.sysconfig
     dest: /etc/sysconfig/cockroachdb
+
+- name: Install systemd unit
+  become: yes
+  template: src=cockroachdb.service dest=/lib/systemd/system/cockroachdb.service mode=644
+  notify:
+    - reload systemctl

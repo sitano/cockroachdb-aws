@@ -2,3 +2,6 @@
 - include: "install.yml"
 - include: "facts.yml"
 - include: "configure.yml"
+
+# - name: Start cockroachdb
+#  service: name=cockroachdb.service state=started enabled=yes
