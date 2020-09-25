@@ -1,3 +1,9 @@
 .idea
-.inventory.yaml
-.playbook.yaml
+.inv
+.inventory*
+.key
+.output
+.playbook*
+.terraform/
+.vars
+terraform.tfstate*
