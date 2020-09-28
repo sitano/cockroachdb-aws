@@ -22,9 +22,6 @@ resource "aws_lb_target_group" "crdb_lb_tg" {
     protocol            = "HTTP"
     port                = 8080
     interval            = 30
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 5
   }
 
   tags = local.aws_tags

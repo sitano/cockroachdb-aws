@@ -13,3 +13,7 @@ output "private_key" {
 output "public_key" {
   value = local.public_key
 }
+
+output "elb_dns_name" {
+  value = aws_lb.crdb_lb.dns_name
+}
