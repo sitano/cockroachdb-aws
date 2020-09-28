@@ -2,8 +2,12 @@ output "cluster_id" {
   value = random_uuid.cluster_id.result
 }
 
-output "seeds" {
+output "nodes" {
   value = aws_eip.cockroach.*.public_ip
+}
+
+output "loaders" {
+  value = aws_eip.loader.*.public_ip
 }
 
 output "private_key" {

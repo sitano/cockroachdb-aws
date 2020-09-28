@@ -17,7 +17,7 @@ resource "aws_instance" "cockroach" {
   subnet_id         = element(aws_subnet.subnet.*.id, count.index)
   user_data         = ""
 
-  security_groups = [
+  vpc_security_group_ids = [
     aws_security_group.cluster.id,
     aws_security_group.user.id
   ]
@@ -39,7 +39,7 @@ resource "aws_instance" "loader" {
   subnet_id         = element(aws_subnet.subnet.*.id, count.index)
   user_data         = ""
 
-  security_groups = [
+  vpc_security_group_ids = [
     aws_security_group.cluster.id,
     aws_security_group.user.id
   ]
@@ -50,4 +50,24 @@ resource "aws_instance" "loader" {
 
   tags  = merge(local.aws_tags, map("type", "cockroach-loader"))
   count = var.loaders
+}
+
+resource "aws_eip" "cockroach" {
+  vpc      = true
+  instance = element(aws_instance.cockroach.*.id, count.index)
+
+  tags = merge(local.aws_tags, map("type", "cockroach"))
+
+  count      = var.nodes_count
+  depends_on = [aws_internet_gateway.vpc_igw]
+}
+
+resource "aws_eip" "loader" {
+  vpc      = true
+  instance = element(aws_instance.loader.*.id, count.index)
+
+  tags = merge(local.aws_tags, map("type", "cockroach-loader"))
+
+  count      = var.loaders
+  depends_on = [aws_internet_gateway.vpc_igw]
 }

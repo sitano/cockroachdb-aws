@@ -22,16 +22,6 @@ resource "aws_subnet" "subnet" {
   depends_on = [aws_internet_gateway.vpc_igw]
 }
 
-resource "aws_eip" "cockroach" {
-  vpc      = true
-  instance = element(aws_instance.cockroach.*.id, count.index)
-
-  tags = merge(local.aws_tags, map("type", "cockroach"))
-
-  count      = var.nodes_count
-  depends_on = [aws_internet_gateway.vpc_igw]
-}
-
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.vpc.id
 
