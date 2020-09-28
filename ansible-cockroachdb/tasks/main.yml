@@ -1,4 +1,7 @@
 ---
+- debug:
+    msg: "Seeds {{ seeds }}"
+
 - include: "tune.yml"
 - include: "install.yml"
 - include: "facts.yml"
@@ -7,3 +10,8 @@
 - name: Start CockroachDB
   become: yes
   service: name=cockroachdb.service state=started enabled=yes
+
+- name: Init CockroachDB cluster
+  command: cockroach init --insecure
+  run_once: true
+  delegate_to: "{{ seeds[0] }}"

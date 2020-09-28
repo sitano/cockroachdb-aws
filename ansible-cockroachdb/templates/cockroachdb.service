@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=forking
 EnvironmentFile=/etc/sysconfig/cockroachdb
-{% if ((seeds | default([])) | length) == 0 %}
+{% if [seeds[0]] | difference([node_private_ip]) | length %}
 ExecStart=/usr/local/bin/cockroach start --insecure --advertise-addr ${PRIVATE_IP} --advertise-sql-addr ${PUBLIC_IP} --locality=region=${REGION},datacenter=${AVAILABILITY_ZONE} --log-dir /var/log --pid-file /var/run/cockroach.pid --store=${STORAGE} --join=${SEEDS} --cache=.25 --max-sql-memory=.25  --background
 {% else %}
 ExecStart=/usr/local/bin/cockroach start --insecure --advertise-addr ${PRIVATE_IP} --advertise-sql-addr ${PUBLIC_IP} --locality=region=${REGION},datacenter=${AVAILABILITY_ZONE} --log-dir /var/log --pid-file /var/run/cockroach.pid --store=${STORAGE}                 --cache=.25 --max-sql-memory=.25  --background

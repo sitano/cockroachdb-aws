@@ -40,7 +40,7 @@
 - name: setup cockroachdb nodes
   hosts: nodes
   vars:
-    seeds: "{{ groups['nodes'] }}"
+    seeds: "{{ groups['nodes'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) }}"
   roles:
     - ansible-cockroachdb
   tags:
