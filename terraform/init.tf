@@ -7,8 +7,8 @@ provider "aws" {
 locals {
   aws_az = data.aws_availability_zones.all.names
 
-  private_key  = tls_private_key.scylla.private_key_pem
-  public_key   = tls_private_key.scylla.public_key_openssh
+  private_key  = tls_private_key.cockroach.private_key_pem
+  public_key   = tls_private_key.cockroach.public_key_openssh
   cluster_name = "crdb-cluster-${random_uuid.cluster_id.result}"
 
   aws_tags = {

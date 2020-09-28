@@ -3,7 +3,7 @@ output "cluster_id" {
 }
 
 output "seeds" {
-  value = aws_eip.scylla.*.public_ip
+  value = aws_eip.cockroach.*.public_ip
 }
 
 output "private_key" {

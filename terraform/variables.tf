@@ -18,7 +18,7 @@ variable "aws_instance_type" {
   default     = "i3.2xlarge"
 }
 
-variable "cluster_count" {
+variable "nodes_count" {
   description = ""
   default     = 3
 }
@@ -67,8 +67,24 @@ variable "node_ports" {
   ]
 }
 
-variable "aws_ami" {
-  description = "Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2"
+variable "lb_target_port" {
+  default = 26257
+}
+
+variable "loaders" {
+  description = "number of loaders nodes to allocate"
+  default = 0
+}
+
+variable "loaders_instance_type" {
+  default = "c5.xlarge"
+}
+
+variable "loaders_ami" {
   default = "ami-0653812935d0743fe"
 }
 
+variable "database_ami" {
+  description = "Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2"
+  default = "ami-0653812935d0743fe"
+}

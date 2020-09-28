@@ -1,4 +1,4 @@
-# terraform-aws-scylla
+# terraform-aws-cockroach
 
 Terraform module for building CockroachDB cluster infrastructure on AWS.
 
