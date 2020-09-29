@@ -1,0 +1,7 @@
+---
+- debug:
+    msg: "Nodes {{ nodes }}"
+
+- include: "install.yml"
+- include: "facts.yml"
+

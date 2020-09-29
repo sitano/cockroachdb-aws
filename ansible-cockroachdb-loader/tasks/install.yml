@@ -1,0 +1,9 @@
+---
+- name: Download and unarchive CockroachDB
+  become: yes
+  unarchive:
+    src: "{{crdb_package}}"
+    dest: /usr/local/bin
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+    creates: /usr/local/bin/cockroach

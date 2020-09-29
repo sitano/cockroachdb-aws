@@ -1,0 +1,43 @@
+---
+- name: Detect region and availability zone
+  become: yes
+  shell: |
+    EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+    EC2_PRIVATE_IP=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+    EC2_PUBLIC_IP=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+    EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed 's/[a-z]$//'`"
+    echo $EC2_AVAIL_ZONE > /az
+    echo $EC2_REGION > /region
+    echo $EC2_PUBLIC_IP > /public_ip
+    echo $EC2_PRIVATE_IP > /private_ip
+    exit 0
+  args:
+    creates:
+      - /az
+      - /region
+      - /private_ip
+      - /public_ip
+
+- name: Load node region
+  shell: cat /region
+  register: node_region
+
+- name: Load node az
+  shell: cat /az
+  register: node_az
+
+- name: Load node private ip
+  shell: cat /private_ip
+  register: node_private_ip
+
+- name: Load node public ip
+  shell: cat /public_ip
+  register: node_public_ip
+
+- set_fact:
+    node_region={{ node_region.stdout }}
+    node_az={{ node_az.stdout }}
+    node_public_ip={{ node_public_ip.stdout }}
+    node_private_ip={{ node_private_ip.stdout }}
+
+

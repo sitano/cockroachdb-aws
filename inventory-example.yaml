@@ -7,7 +7,11 @@ host_c
 host_x
 host_y
 
-[nodes:vars]
+[world:children]
+nodes
+loaders
+
+[world:vars]
 ansible_user=ec2-user
 ansible_ssh_private_key_file=.key
 ansible_become_method=sudo

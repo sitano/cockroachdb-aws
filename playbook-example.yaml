@@ -45,3 +45,12 @@
     - ansible-cockroachdb
   tags:
     - crdb
+
+- name: setup cockroachdb loaders
+  hosts: loaders
+  vars:
+    nodes: "{{ groups['nodes'] }}"
+  roles:
+    - ansible-cockroachdb-loader
+  tags:
+    - loader
