@@ -7,3 +7,6 @@
 [submodule "ansible-role-swap"]
 	path = ansible-role-swap
 	url = git@github.com:geerlingguy/ansible-role-swap.git
+[submodule "ansible-prometheus"]
+	path = ansible-prometheus
+	url = git@github.com:cloudalchemy/ansible-prometheus.git

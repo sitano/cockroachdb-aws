@@ -53,9 +53,10 @@ variable "user_ports" {
   description = ""
   type        = list(number)
   default = [
-    22,
-    8080,
-    26257
+    22,     # ssh
+    8080,   # crdb dashboard + metrics
+    9090,   # prometheus dashboard
+    26257,  # crdb internal
   ]
 }
 
@@ -63,8 +64,8 @@ variable "node_ports" {
   description = ""
   type        = list(number)
   default = [
-    8080,
-    26257
+    8080,   # crdb dashboard + metrics
+    26257   # crdb internal
   ]
 }
 
@@ -92,7 +93,7 @@ variable "node_ami" {
 }
 
 variable "monitor" {
-  default = false
+  default = 0
 }
 
 variable "monitor_instance_type" {

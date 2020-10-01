@@ -2,6 +2,7 @@
 - debug:
     msg: "Seeds {{ seeds }}"
 
+- include: "atop.yml"
 - include: "tune.yml"
 - include: "install.yml"
 - include: "facts.yml"

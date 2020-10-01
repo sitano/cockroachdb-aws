@@ -1,0 +1,23 @@
+---
+- name: Install epel
+  become: yes
+  shell: |
+    yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    yum-config-manager --enable epel
+    exit 0
+  when: ansible_distribution == "Amazon"
+
+- name: Install configuration
+  become: yes
+  template:
+    src: atop.sysconfig
+    dest: /etc/sysconfig/atop
+
+- name: Install atop
+  become: yes
+  yum:
+    name: atop
+
+- name: Start atop
+  become: yes
+  service: name=atop.service state=started enabled=yes

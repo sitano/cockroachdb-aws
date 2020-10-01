@@ -1,2 +1,3 @@
 ---
 crdb_package: 'https://binaries.cockroachdb.com/cockroach-v20.1.6.linux-amd64.tgz'
+ycsb_package: 'https://github.com/brianfrankcooper/YCSB/releases/download/0.17.0/ycsb-0.17.0.tar.gz'
