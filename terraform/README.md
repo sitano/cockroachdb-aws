@@ -11,11 +11,13 @@ Define variables in `.vars`:
     aws_region = "eu-north-1"
     owner = ""
     cluster_user_cidr = ["/32"]
+    loaders = 0
+    monitor = 0
 
 Execute:
 
     $ terraform apply -var-file=.vars
 
-Destroy:  
-  
+Destroy:
+
     $ terraform destroy

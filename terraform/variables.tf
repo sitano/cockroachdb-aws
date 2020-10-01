@@ -13,7 +13,7 @@ variable "aws_region" {
   default     = "eu-north-1"
 }
 
-variable "aws_instance_type" {
+variable "node_instance_type" {
   description = ""
   default     = "i3.2xlarge"
 }
@@ -63,6 +63,7 @@ variable "node_ports" {
   description = ""
   type        = list(number)
   default = [
+    8080,
     26257
   ]
 }
@@ -81,10 +82,24 @@ variable "loaders_instance_type" {
 }
 
 variable "loaders_ami" {
+  description = "Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2"
   default = "ami-0653812935d0743fe"
 }
 
-variable "database_ami" {
+variable "node_ami" {
+  description = "Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2"
+  default = "ami-0653812935d0743fe"
+}
+
+variable "monitor" {
+  default = false
+}
+
+variable "monitor_instance_type" {
+  default = "t3.large"
+}
+
+variable "monitor_ami" {
   description = "Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2"
   default = "ami-0653812935d0743fe"
 }

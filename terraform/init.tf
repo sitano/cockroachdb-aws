@@ -21,3 +21,13 @@ locals {
 }
 
 resource "random_uuid" "cluster_id" {}
+
+resource "tls_private_key" "cockroach" {
+  algorithm = "RSA"
+  rsa_bits  = "2048"
+}
+
+resource "aws_key_pair" "login" {
+  key_name   = "cluster-support-${random_uuid.cluster_id.result}"
+  public_key = local.public_key
+}

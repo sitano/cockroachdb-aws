@@ -7,9 +7,13 @@ host_c
 host_x
 host_y
 
+[monitor]
+host_m
+
 [world:children]
 nodes
 loaders
+monitor
 
 [world:vars]
 ansible_user=ec2-user

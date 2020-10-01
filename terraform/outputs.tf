@@ -10,6 +10,10 @@ output "loaders" {
   value = aws_eip.loader.*.public_ip
 }
 
+output "monitor" {
+  value = aws_eip.monitor.*.public_ip
+}
+
 output "private_key" {
   value = local.private_key
 }

@@ -1,6 +1,6 @@
-resource "aws_instance" "cockroach" {
-  ami               = var.node_ami
-  instance_type     = var.node_instance_type
+resource "aws_instance" "monitor" {
+  ami               = var.monitor_ami
+  instance_type     = var.monitor_instance_type
   key_name          = aws_key_pair.login.key_name
   monitoring        = true
   availability_zone = element(local.aws_az, count.index % length(local.aws_az))
@@ -12,16 +12,16 @@ resource "aws_instance" "cockroach" {
     aws_security_group.user.id
   ]
 
-  tags  = merge(local.aws_tags, map("type", "cockroach"))
-  count = var.nodes_count
+  tags  = merge(local.aws_tags, map("type", "cockroach-monitor"))
+  count = var.monitor
 }
 
-resource "aws_eip" "cockroach" {
+resource "aws_eip" "monitor" {
   vpc      = true
-  instance = element(aws_instance.cockroach.*.id, count.index)
+  instance = aws_instance.monitor[count.index].id
 
-  tags = merge(local.aws_tags, map("type", "cockroach"))
+  tags = merge(local.aws_tags, map("type", "cockroach-monitor"))
 
-  count      = var.nodes_count
+  count      = var.monitor
   depends_on = [aws_internet_gateway.vpc_igw]
 }

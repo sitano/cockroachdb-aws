@@ -11,24 +11,40 @@
 
 # https://www.cockroachlabs.com/docs/v20.1/recommended-production-settings#storage
 # The maximum recommended storage capacity per node is 2.5 TiB, regardless of the number of vCPUs.
+# - name: configure storage
+#   hosts: nodes
+#   become: yes
+#   vars:
+#     mdadm_arrays:
+#       - name: 'md0'
+#         devices:
+#           - '/dev/nvme0n1'
+#         filesystem: 'xfs'
+#         level: '0'
+#         mountpoint: '/var/lib/cockroachdb'
+#         state: 'present'
+#         opts: 'noatime,nofail'
+#         force: true
+#   roles:
+#     - ansible-mdadm
+#   tags:
+#     - mdadm
+
 - name: configure storage
   hosts: nodes
   become: yes
-  vars:
-    mdadm_arrays:
-      - name: 'md0'
-        devices:
-          - '/dev/nvme0n1'
-        filesystem: 'xfs'
-        level: '0'
-        mountpoint: '/var/lib/cockroachdb'
-        state: 'present'
+  tasks:
+    - community.general.filesystem:
+        dev: '/dev/nvme1n1'
+        fstype: 'xfs'
+    - mount:
+        src: '/dev/nvme1n1'
+        path: '/var/lib/cockroachdb'
+        fstype: xfs
         opts: 'noatime,nofail'
-        force: true
-  roles:
-    - ansible-mdadm
+        state: mounted
   tags:
-    - mdadm
+    - fs
 
 - name: setup chrony
   hosts: nodes
