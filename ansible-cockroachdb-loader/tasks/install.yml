@@ -29,3 +29,9 @@
     src: "/opt/ycsb/bin/ycsb"
     dest: "/usr/local/bin/ycsb"
     state: link
+
+- name: 'Install JDK 1.8.0'
+  become: yes
+  package:
+    name: "java-1.8.0-openjdk"
+    state: 'present'
