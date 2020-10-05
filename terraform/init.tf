@@ -11,13 +11,13 @@ locals {
   public_key   = tls_private_key.cockroach.public_key_openssh
   cluster_name = "crdb-cluster-${random_uuid.cluster_id.result}"
 
-  aws_tags = {
+  aws_tags = merge({
     environment = var.environment
     version     = var.module_version
     cluster_id  = random_uuid.cluster_id.result
     owner       = var.owner
     Name        = "${var.owner}-${local.cluster_name}"
-  }
+  }, var.user_tags)
 }
 
 resource "random_uuid" "cluster_id" {}

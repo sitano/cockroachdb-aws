@@ -5,5 +5,5 @@
 .output
 .playbook*
 .terraform/
-.vars
+.vars*
 terraform.tfstate*

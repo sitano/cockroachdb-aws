@@ -104,3 +104,9 @@ variable "monitor_ami" {
   description = "Amazon Linux 2 AMI 2.0.20200917.0 x86_64 HVM gp2"
   default = "ami-0653812935d0743fe"
 }
+
+variable "user_tags" {
+  description = "User defined tags"
+  type = map(string)
+  default = {}
+}
