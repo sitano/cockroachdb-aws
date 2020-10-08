@@ -5,3 +5,16 @@
 - include: "install.yml"
 - include: "facts.yml"
 
+- name: Copy load.sh
+  become: yes
+  copy:
+    src: "{{ role_path }}/files/load.sh"
+    dest: /load.sh
+    mode: u=rwx,g=rx,o=rx
+
+- name: Copy run.sh
+  become: yes
+  copy:
+    src: "{{ role_path }}/files/run.sh"
+    dest: /run.sh
+    mode: u=rwx,g=rx,o=rx
