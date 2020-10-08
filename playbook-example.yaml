@@ -11,40 +11,41 @@
 
 # https://www.cockroachlabs.com/docs/v20.1/recommended-production-settings#storage
 # The maximum recommended storage capacity per node is 2.5 TiB, regardless of the number of vCPUs.
-# - name: configure storage
-#   hosts: nodes
-#   become: yes
-#   vars:
-#     mdadm_arrays:
-#       - name: 'md0'
-#         devices:
-#           - '/dev/nvme0n1'
-#         filesystem: 'xfs'
-#         level: '0'
-#         mountpoint: '/var/lib/cockroachdb'
-#         state: 'present'
-#         opts: 'noatime,nofail'
-#         force: true
-#   roles:
-#     - ansible-mdadm
-#   tags:
-#     - mdadm
-
 - name: configure storage
   hosts: nodes
   become: yes
-  tasks:
-    - community.general.filesystem:
-        dev: '/dev/nvme1n1'
-        fstype: 'xfs'
-    - mount:
-        src: '/dev/nvme1n1'
-        path: '/var/lib/cockroachdb'
-        fstype: xfs
+  vars:
+    mdadm_arrays:
+      - name: 'md0'
+        devices:
+          - '/dev/nvme0n1'
+          - '/dev/nvme1n1'
+        filesystem: 'xfs'
+        level: '0'
+        mountpoint: '/var/lib/cockroachdb'
+        state: 'present'
         opts: 'noatime,nofail'
-        state: mounted
+        force: true
+  roles:
+    - ansible-mdadm
   tags:
-    - fs
+    - mdadm
+
+# - name: configure storage
+#   hosts: nodes
+#   become: yes
+#   tasks:
+#     - community.general.filesystem:
+#         dev: '/dev/nvme1n1'
+#         fstype: 'xfs'
+#     - mount:
+#         src: '/dev/nvme1n1'
+#         path: '/var/lib/cockroachdb'
+#         fstype: xfs
+#         opts: 'noatime,nofail'
+#         state: mounted
+#   tags:
+#     - fs
 
 - name: setup chrony
   hosts: nodes
@@ -53,11 +54,21 @@
   tags:
     - chrony
 
+- name: node exporters
+  hosts:
+    - nodes
+    - loaders
+  roles:
+    - ansible-node-exporter
+  tags:
+    - monitor
+    - exporter
+
 - name: setup cockroachdb nodes
   hosts: nodes
   vars:
     seeds: "{{ groups['nodes'] | map('extract', hostvars, ['ansible_eth0', 'ipv4', 'address']) }}"
-    storage_size: "372GB"
+    storage_size: "3.8TB"
   roles:
     - ansible-cockroachdb
   tags:
@@ -84,7 +95,7 @@
     - monitor
     - loader
 
-- name: Build prometheus targets list
+- name: Build prometheus targets list for CRDB
   hosts: monitor
   tasks:
     - set_fact: monitor_targets={%for ip in nodes_private_ips.split(',') %}{{ip}}:8080{% if not loop.last %},{% endif %}{% endfor %}
@@ -92,6 +103,27 @@
         msg: "Monitoring targets: {{monitor_targets}}"
   tags:
     - monitor
+    - crdb
+
+- name: Build prometheus targets list for CRDB nodes exporters
+  hosts: monitor
+  tasks:
+    - set_fact: nodes_exporters={%for ip in nodes_private_ips.split(',') %}{{ip}}:9100{% if not loop.last %},{% endif %}{% endfor %}
+    - debug:
+        msg: "Nodes exporters: {{nodes_exporters}}"
+  tags:
+    - monitor
+    - crdb
+
+- name: Build prometheus targets list for loaders exporters
+  hosts: world
+  tasks:
+    - set_fact: loaders_exporters={%for host in groups['loaders']%}{{hostvars[host].ansible_eth0.ipv4.address}}:9100{% if not loop.last %},{% endif %}{% endfor %}
+    - debug:
+        msg: "Loaders exporters: {{loaders_exporters}}"
+  tags:
+    - monitor
+    - loader
 
 - name: setup monitoring
   hosts: monitor
@@ -101,9 +133,10 @@
     - monitor
   vars:
     prometheus_global:
-      scrape_interval: 10s
-      scrape_timeout: 10s
-      evaluation_interval: 10s
+      scrape_interval: 5s
+      scrape_timeout: 5s
+      evaluation_interval: 5s
+    prometheus_storage_retention: 100y
     prometheus_scrape_configs:
       - job_name: 'cockroachdb'
         metrics_path: '/_status/vars'
@@ -117,6 +150,33 @@
           - targets: "{{monitor_targets.split(\",\")}}"
             labels:
               cluster: 'my-cockroachdb-cluster'
+              nodes: 'cluster'
+      - job_name: 'nodes_exporters'
+        metrics_path: '/metrics'
+        # Insecure mode:
+        scheme: 'http'
+        # Secure mode:
+        # scheme: 'https'
+        tls_config:
+          insecure_skip_verify: true
+        static_configs:
+          - targets: "{{nodes_exporters.split(\",\")}}"
+            labels:
+              cluster: 'my-cockroachdb-cluster'
+              nodes: 'cluster_exporters'
+      - job_name: 'loaders_exporters'
+        metrics_path: '/metrics'
+        # Insecure mode:
+        scheme: 'http'
+        # Secure mode:
+        # scheme: 'https'
+        tls_config:
+          insecure_skip_verify: true
+        static_configs:
+          - targets: "{{loaders_exporters.split(\",\")}}"
+            labels:
+              cluster: 'my-cockroachdb-cluster'
+              nodes: 'loaders'
       - job_name: "prometheus"
         metrics_path: "{{ prometheus_metrics_path }}"
         static_configs:

@@ -10,3 +10,6 @@
 [submodule "ansible-prometheus"]
 	path = ansible-prometheus
 	url = git@github.com:cloudalchemy/ansible-prometheus.git
+[submodule "ansible-node-exporter"]
+	path = ansible-node-exporter
+	url = git@github.com:cloudalchemy/ansible-node-exporter.git

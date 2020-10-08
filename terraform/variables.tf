@@ -56,6 +56,7 @@ variable "user_ports" {
     22,     # ssh
     8080,   # crdb dashboard + metrics
     9090,   # prometheus dashboard
+    9100,   # node_exporter
     26257,  # crdb internal
   ]
 }
@@ -65,6 +66,7 @@ variable "node_ports" {
   type        = list(number)
   default = [
     8080,   # crdb dashboard + metrics
+    9100,   # node_exporter
     26257   # crdb internal
   ]
 }
