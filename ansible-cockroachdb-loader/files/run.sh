@@ -16,7 +16,7 @@ for i in $(seq 0 $(($N-1)))
 do 
   NODE=${NODES[$(($i%$NODES_LEN))]}
   echo "$NODE"
-  screen -S "ycsb-run-$i" -d -m /opt/ycsb/bin/ycsb run postgrenosql \
+  screen -L -S "ycsb-run-$i" -d -m /opt/ycsb/bin/ycsb run postgrenosql \
     -threads 64 \
     -P /opt/ycsb/workloads/workloada \
     -p measurementtype=hdrhistogram \
@@ -25,6 +25,6 @@ do
     -p postgrenosql.url=jdbc:postgresql://$NODE:26257/ycsb \
     -p postgrenosql.user=root -p postgrenosql.passwd= \
     -p postgrenosql.autocommit=true \
-    -p fieldcount=10 -p fieldlength=128 2>&1 | tee ycsb_run_${i}_$(date +%Y-%m-%d)
+    -p fieldcount=10 -p fieldlength=128
 done
 

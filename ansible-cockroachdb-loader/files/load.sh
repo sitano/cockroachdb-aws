@@ -18,7 +18,7 @@ do
   START=$(($i*$STEP))
   NODE=${NODES[$(($i%$NODES_LEN))]}
   echo "$NODE: start = $START stepping $STEP"
-  screen -S "ycsb-load-$i" -d -m /opt/ycsb/bin/ycsb load postgrenosql \
+  screen -L -S "ycsb-load-$i" -d -m /opt/ycsb/bin/ycsb load postgrenosql \
     -threads 1 \
     -P /opt/ycsb/workloads/workloada \
     -p measurementtype=hdrhistogram \
@@ -28,6 +28,6 @@ do
     -p postgrenosql.url=jdbc:postgresql://$NODE:26257/ycsb \
     -p postgrenosql.user=root -p postgrenosql.passwd= \
     -p postgrenosql.autocommit=true \
-    -p fieldcount=10 -p fieldlength=128 2>&1 | tee ycsb_load_${i}_$(date +%Y-%m-%d)
+    -p fieldcount=10 -p fieldlength=128
 done
 
