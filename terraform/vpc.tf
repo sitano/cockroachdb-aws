@@ -11,14 +11,14 @@ resource "aws_internet_gateway" "vpc_igw" {
 }
 
 resource "aws_subnet" "subnet" {
-  availability_zone       = element(local.aws_az, count.index % length(local.aws_az))
-  cidr_block              = format("10.0.%d.0/24", count.index)
+  availability_zone       = element(local.aws_az, count.index % var.azs)
+  cidr_block              = format("10.0.%d.0/24", count.index % var.azs)
   vpc_id                  = aws_vpc.vpc.id
   map_public_ip_on_launch = true
 
   tags = local.aws_tags
 
-  count      = var.nodes_count
+  count      = var.azs
   depends_on = [aws_internet_gateway.vpc_igw]
 }
 
@@ -37,5 +37,5 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
   subnet_id      = element(aws_subnet.subnet.*.id, count.index)
 
-  count = var.nodes_count
+  count = var.azs
 }

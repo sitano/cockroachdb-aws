@@ -3,8 +3,8 @@ resource "aws_instance" "cockroach" {
   instance_type     = var.node_instance_type
   key_name          = aws_key_pair.login.key_name
   monitoring        = true
-  availability_zone = element(local.aws_az, count.index % length(local.aws_az))
-  subnet_id         = element(aws_subnet.subnet.*.id, count.index)
+  availability_zone = element(local.aws_az, count.index % var.azs)
+  subnet_id         = element(aws_subnet.subnet.*.id, count.index % var.azs)
   user_data         = ""
 
   vpc_security_group_ids = [
@@ -13,7 +13,7 @@ resource "aws_instance" "cockroach" {
   ]
 
   tags  = merge(local.aws_tags, map("type", "cockroach"))
-  count = var.nodes_count
+  count = var.nodes
 }
 
 resource "aws_eip" "cockroach" {
@@ -22,6 +22,6 @@ resource "aws_eip" "cockroach" {
 
   tags = merge(local.aws_tags, map("type", "cockroach"))
 
-  count      = var.nodes_count
+  count      = var.nodes
   depends_on = [aws_internet_gateway.vpc_igw]
 }

@@ -7,5 +7,5 @@ data "template_file" "cockroach_cidr" {
     cidr = "${var.cluster_broadcast == "private" ? element(aws_instance.cockroach.*.private_ip, count.index) : element(aws_eip.cockroach.*.public_ip, count.index)}/32"
   }
 
-  count = var.nodes_count
+  count = var.nodes
 }

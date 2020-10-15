@@ -32,5 +32,5 @@ resource "aws_lb_target_group_attachment" "crdb_lb_tg_at" {
   target_id        = aws_instance.cockroach[count.index].id
   port             = var.lb_target_port
 
-  count = var.nodes_count
+  count = var.nodes
 }

@@ -3,8 +3,8 @@ resource "aws_instance" "monitor" {
   instance_type     = var.monitor_instance_type
   key_name          = aws_key_pair.login.key_name
   monitoring        = true
-  availability_zone = element(local.aws_az, count.index % length(local.aws_az))
-  subnet_id         = element(aws_subnet.subnet.*.id, count.index)
+  availability_zone = element(local.aws_az, count.index % var.azs)
+  subnet_id         = element(aws_subnet.subnet.*.id, count.index % var.azs)
   user_data         = ""
 
   vpc_security_group_ids = [

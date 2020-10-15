@@ -18,7 +18,12 @@ variable "node_instance_type" {
   default     = "i3.2xlarge"
 }
 
-variable "nodes_count" {
+variable "nodes" {
+  description = ""
+  default     = 3
+}
+
+variable "azs" {
   description = ""
   default     = 3
 }
