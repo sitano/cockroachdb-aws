@@ -103,7 +103,6 @@
         msg: "Monitoring targets: {{monitor_targets}}"
   tags:
     - monitor
-    - crdb
 
 - name: Build prometheus targets list for CRDB nodes exporters
   hosts: monitor
@@ -113,7 +112,6 @@
         msg: "Nodes exporters: {{nodes_exporters}}"
   tags:
     - monitor
-    - crdb
 
 - name: Build prometheus targets list for loaders exporters
   hosts: world

@@ -11,3 +11,7 @@
 - name: Start CockroachDB
   become: yes
   service: name=cockroachdb.service state=started enabled=yes
+
+- name: Init cluster
+  shell: cockroach init --insecure || true
+  run_once: true

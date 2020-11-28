@@ -8,4 +8,4 @@ PUBLIC_IP="{{ node_public_ip }}"
 
 PRIVATE_IP="{{ node_private_ip }}"
 
-SEEDS="{{ [seeds[0]] | difference([node_private_ip]) | join(',') }}"
+SEEDS="{{ seeds | difference([node_private_ip]) | join(',') }}"
