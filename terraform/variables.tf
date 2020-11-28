@@ -13,6 +13,11 @@ variable "aws_region" {
   default     = "eu-north-1"
 }
 
+variable "aws_profile" {
+  description = ""
+  default     = ""
+}
+
 variable "node_instance_type" {
   description = ""
   default     = "i3.2xlarge"
