@@ -1,5 +1,5 @@
 ---
-crdb_package: 'https://binaries.cockroachdb.com/cockroach-v20.2.0.linux-amd64.tgz'
+crdb_package: 'https://binaries.cockroachdb.com/cockroach-v20.1.6.linux-amd64.tgz'
 storage_path: '/var/lib/cockroachdb'
 storage_size: '1.8TiB'
 storage_type: 'ssd'
