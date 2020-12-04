@@ -74,15 +74,6 @@
   tags:
     - crdb
 
-- name: setup cockroachdb loaders
-  hosts: loaders
-  vars:
-    nodes: "{{ groups['nodes'] }}"
-  roles:
-    - ansible-cockroachdb-loader
-  tags:
-    - loader
-
 - name: Build private nodes list
   become: true
   hosts: world
@@ -93,6 +84,15 @@
         content={%for ip in nodes_private_ips.split(',')%}{{ip}}{% if not loop.last %}{{' '}}{% endif %}{% endfor %}
   tags:
     - monitor
+    - loader
+
+- name: setup cockroachdb loaders
+  hosts: loaders
+  vars:
+    nodes: "{{ groups['nodes'] }}"
+  roles:
+    - ansible-cockroachdb-loader
+  tags:
     - loader
 
 - name: Build prometheus targets list for CRDB

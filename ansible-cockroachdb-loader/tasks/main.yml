@@ -4,6 +4,7 @@
 
 - include: "install.yml"
 - include: "facts.yml"
+- include: "haproxy.yml"
 
 - name: Copy load.sh
   become: yes

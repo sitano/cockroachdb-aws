@@ -1,0 +1,13 @@
+---
+- name: install haproxy
+  become: yes
+  yum: name=haproxy state=present
+
+- name: configure haproxy
+  become: yes
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg
+  notify: reload haproxy
+
+- name: start haproxy
+  become: yes
+  service: name=haproxy state=started

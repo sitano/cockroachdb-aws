@@ -8,8 +8,8 @@ provider "aws" {
 locals {
   aws_az = data.aws_availability_zones.all.names
 
-  private_key  = tls_private_key.cockroach.private_key_pem
-  public_key   = tls_private_key.cockroach.public_key_openssh
+  private_key  = ""
+  public_key   = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCv5h9eUqER0DgZ9VUoe+fNLdJMV08SHvzqv7tS3g2RDtJm07tF/oeuW5r8LaUYFZTaJQNn/Et+lcuy5epKMcZmr0StPJBHv5zeUl8rA4fTlF+ByyIm3Z4jkjXRrA8yQtV21BawkMjbh5m5gNXBdIHP/54GZn4ZFk3pMISHhQgWltP+44mw540F6exhYwiYfVnarOM+4chUneBMDCCvmfvDQFHCi3KXOLbTEK5a8FJrLxiRrk81m09Nw0dezBIci9ieLsByIkzpH9yAruaejAC2uzpg4r2ht6coKFEoESvlx4l2E6GaHSaYmmJbbmSif9Z+t0So3wjUMKzF4r9fmjV7"
   cluster_name = "crdb-cluster-${random_uuid.cluster_id.result}"
 
   aws_tags = merge({
@@ -23,10 +23,10 @@ locals {
 
 resource "random_uuid" "cluster_id" {}
 
-resource "tls_private_key" "cockroach" {
-  algorithm = "RSA"
-  rsa_bits  = "2048"
-}
+# resource "tls_private_key" "cockroach" {
+#  algorithm = "RSA"
+#  rsa_bits  = "2048"
+# }
 
 resource "aws_key_pair" "login" {
   key_name   = "cluster-support-${random_uuid.cluster_id.result}"

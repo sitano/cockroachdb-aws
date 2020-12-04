@@ -29,8 +29,8 @@ frontend  main *:5000
     default_backend         app
 
 backend app
-    balance     roundrobin
-    server  app1 10.0.0.119:26257
-    server  app2 10.0.1.241:26257
-    server  app3 10.0.2.229:26257
+    balance roundrobin
+    {% for seed in nodes_private_ips.split(',') %}
+    server app{{loop.index}} {{seed}}:26257
+    {% endfor %}
 
