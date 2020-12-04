@@ -9,7 +9,6 @@ resource "aws_instance" "cockroach" {
 
   vpc_security_group_ids = [
     aws_security_group.cluster.id,
-    aws_security_group.user.id
   ]
 
   tags  = merge(local.aws_tags, map("type", "cockroach"))

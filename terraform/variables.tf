@@ -20,7 +20,7 @@ variable "aws_profile" {
 
 variable "node_instance_type" {
   description = ""
-  default     = "i3.2xlarge"
+  default     = "i3.4xlarge"
 }
 
 variable "nodes" {

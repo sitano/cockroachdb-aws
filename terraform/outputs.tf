@@ -23,5 +23,5 @@ output "public_key" {
 }
 
 output "elb_dns_name" {
-  value = aws_lb.crdb_lb.dns_name
+  value = aws_lb.front_end.dns_name
 }
