@@ -13,12 +13,14 @@ Define variables in `.vars`:
     aws_access_key = ""
     aws_secret_key = ""
     aws_region = "eu-north-1"
-    owner = "user"
-    node_instance_type = "i3en.2xlarge"
+    owner = "author"
+    node_instance_type = "i3.4xlarge"
     loaders_instance_type = "c5.4xlarge"
-    cluster_user_cidr = ["your_ip_address/32"]
-    loaders = 5
+    cluster_user_cidr = ["your_ip/32"]
+    nodes = 3
+    loaders = 1
     monitor = 1
+    azs = 1
     user_tags = {keep = "alive"}
 
 Execute:
