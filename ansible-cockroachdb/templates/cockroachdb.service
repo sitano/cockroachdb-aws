@@ -5,7 +5,7 @@ After=syslog.target network.target
 [Service]
 Type=forking
 EnvironmentFile=/etc/sysconfig/cockroachdb
-ExecStart=/usr/local/bin/cockroach start --insecure --advertise-addr ${PRIVATE_IP} --advertise-sql-addr ${PUBLIC_IP} --locality=region=${REGION},datacenter=${AVAILABILITY_ZONE} --log-dir /var/log --pid-file /var/run/cockroach.pid --store=${STORAGE} --join=${SEEDS} --background
+ExecStart=/usr/local/bin/cockroach start --insecure --advertise-addr ${PRIVATE_IP} --advertise-sql-addr ${PUBLIC_IP} --locality=region=${REGION},datacenter=${AVAILABILITY_ZONE} --log-dir /var/log --pid-file /var/run/cockroach.pid --store=${STORAGE} --join=${SEEDS} --cache=.30 --max-sql-memory=.30 --background
 ExecStop=/usr/local/bin/cockroach quit --insecure
 User=root
 PIDFile=/var/run/cockroach.pid
