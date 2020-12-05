@@ -29,7 +29,7 @@ frontend  main *:5000
     default_backend         app
 
 backend app
-    balance roundrobin
+    balance leastconn
     {% for seed in nodes_private_ips.split(',') %}
     server app{{loop.index}} {{seed}}:26257
     {% endfor %}
